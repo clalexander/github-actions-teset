@@ -1,0 +1,37 @@
+name: Add Environment Variables
+description: Add environment variables to the workflow environment
+
+
+inputs:
+  vars:
+    description: Vars context value
+    required: false
+  secrets:
+    description: Secrets context value
+    required: false
+  prefix:
+    description: Prefix for environment variables
+    required: true
+
+
+runs:
+  using: composite
+  steps:
+    - name: Add variables
+      shell: bash
+      if: ${{ inputs.vars != '' && inputs.vars != 'null' }}
+      run: |
+        echo '${{ inputs.vars }}' | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
+          | map(select(.key | startswith($prefix)) | "\($prefix + (.key | ltrimstr($prefix) | ascii_downcase))=\(.value)")
+          | .[]' >> $GITHUB_ENV
+    - name: Add secrets
+      shell: bash
+      if: ${{ inputs.secrets != '' && inputs.secrets != 'null' }}
+      run: |
+        echo '${{ inputs.secrets }}' | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
+          | map(select(.key | startswith($prefix)) | "\($prefix + (.key | ltrimstr($prefix) | ascii_downcase))=\(.value)")
+          | .[]' >> $GITHUB_ENV
+    - name: Check output
+      shell: bash
+      run: |
+        cat $GITHUB_ENV

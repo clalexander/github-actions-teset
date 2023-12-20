@@ -1,0 +1,24 @@
+name: Checks
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  testenvvars:
+    name: Test Environment Variables
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Add Env Vars
+        uses: ./.github/actions/add-env-vars
+        with:
+          vars: ${{ toJSON(vars) }}
+          secrets: ${{ toJSON(secrets) }}
+          prefix: TF_VAR_
