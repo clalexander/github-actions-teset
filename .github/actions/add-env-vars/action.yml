@@ -19,14 +19,14 @@ runs:
   steps:
     - name: Add variables
       shell: bash
-      if: ${{ inputs.vars != '' && inputs.vars != null }}
+      if: ${{ inputs.vars != '' && inputs.vars != 'null' }}
       run: |
         echo "${{ inputs.vars }}" | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
           | map(select(.key | startswith("$prefix")) | "\("$prefix" + (.key | ltrimstr("$prefix") | ascii_downcase))=\(.value)")
           | .[]' >> $GITHUB_ENV
     - name: Add secrets
       shell: bash
-      if: ${{ inputs.secrets != '' && inputs.secrets != null }}
+      if: ${{ inputs.secrets != '' && inputs.secrets != 'null' }}
       run: |
         echo "${{ inputs.secrets }}" | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
           | map(select(.key | startswith("$prefix")) | "\("$prefix" + (.key | ltrimstr("$prefix") | ascii_downcase))=\(.value)")
