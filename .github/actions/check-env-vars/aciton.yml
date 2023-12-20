@@ -1,0 +1,11 @@
+name: Check Environment Variables
+description: Check environment variables in the workflow environment
+
+
+runs:
+  using: composite
+  steps:
+    - name: Check Environment Variables
+      shell: bash
+      run: |
+        cat $GITHUB_ENV
