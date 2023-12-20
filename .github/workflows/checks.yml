@@ -19,8 +19,8 @@ jobs:
       - name: Add Env Vars
         uses: ./.github/actions/add-env-vars
         with:
-          vars: ${{ vars }}
-          secrets: ${{ secrets }}
+          vars: ${{ toJSON(vars) }}
+          secrets: ${{ toJSON(secrets) }}
           prefix: TF_VAR_
       - name: Check Env Vars
         uses: ./.github/actions/check-env-vars
