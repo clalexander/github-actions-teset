@@ -20,5 +20,5 @@ jobs:
         uses: ./.github/actions/add-env-vars
         with:
           vars: ${{ toJSON(vars) }}
-          secrets: ${{ toJSON(secrets) }}
+          secrets: '{"TF_VAR_TEST_SECRET": "${{ secrets.TF_VAR_TEST_SECRET }}"}'
           prefix: TF_VAR_
