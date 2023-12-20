@@ -11,6 +11,11 @@ jobs:
     name: Test Environment Variables
     runs-on: ubuntu-latest
     steps:
+      - name: Chekcout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
       - name: Add Env Vars
         uses: ./.github/actions/add-env-vars
         with:
