@@ -22,5 +22,3 @@ jobs:
           vars: ${{ toJSON(vars) }}
           secrets: ${{ toJSON(secrets) }}
           prefix: TF_VAR_
-      - name: Check Env Vars
-        uses: ./.github/actions/check-env-vars

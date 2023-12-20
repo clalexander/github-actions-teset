@@ -31,3 +31,7 @@ runs:
         echo '${{ inputs.secrets }}' | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
           | map(select(.key | startswith($prefix)) | "\($prefix + (.key | ltrimstr($prefix) | ascii_downcase))=\(.value)")
           | .[]' >> $GITHUB_ENV
+    - name: Check output
+      shell: bash
+      run: |
+        cat $GITHUB_ENV
